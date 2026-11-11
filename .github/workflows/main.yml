@@ -20,7 +20,9 @@ jobs:
     - name: Package IPA
       run: |
         mkdir -p Payload
-        find . -name "*.app" -type d -exec cp -R {} Payload/ \;
+        cp -R .build/arm64-apple-ios/release/StockChart.app Payload/ || true
+        cp -R .build/release/StockChart.app Payload/ || true
+        find . -name "StockChart.app" -type d -exec cp -R {} Payload/ \;
         zip -r StockChart.ipa Payload
 
     - name: Upload IPA
