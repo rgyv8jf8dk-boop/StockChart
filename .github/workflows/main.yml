@@ -17,14 +17,14 @@ jobs:
       run: |
         xcodebuild -scheme StockChart -destination 'generic/platform=iOS' -configuration Release CODE_SIGNING_ALLOWED=NO
 
+    # 关键代码：直接把编译出来的 .app 打包
     - name: Package IPA
       run: |
         mkdir -p Payload
-        cp -R .build/arm64-apple-ios/release/StockChart.app Payload/ || true
-        cp -R .build/release/StockChart.app Payload/ || true
+        # 寻找整个电脑里的 StockChart.app 并复制
         find . -name "StockChart.app" -type d -exec cp -R {} Payload/ \;
         zip -r StockChart.ipa Payload
-
+        
     - name: Upload IPA
       uses: actions/upload-artifact@v4
       with:
